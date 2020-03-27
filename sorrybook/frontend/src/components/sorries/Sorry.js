@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { deleteSorry } from "../../services/sorryService";
 
 const Sorry = props => {
   var apologist = "himself";
@@ -9,23 +11,43 @@ const Sorry = props => {
   const date = props.content.created_at.split("T");
   const time = date[1].split(".");
 
+  const handleDelete = e => {
+    e.preventDefault();
+    props.deleteSorry(props.content.id);
+  };
   return (
     <div className="card">
       <div className="card-body">
-        <h3>
-          Admin as <i>{apologist}</i>
-        </h3>
-        <h4>Sorry</h4>
-        <p style={{ fontSize: "1.5em" }} className="card-text">
-          {props.content.content}
-        </p>
         <div className="container">
+          <div className="row justify-content-md-start">
+            <div className="col-10">
+              <h3>
+                Admin as <i>{apologist}</i>
+              </h3>
+            </div>
+            <div className="col-2">
+              <button
+                onClick={e => handleDelete(e)}
+                type="button"
+                className="btn btn-outline-danger"
+              >
+                delete
+              </button>
+            </div>
+          </div>
+
+          <h4>Sorry</h4>
+          <p style={{ fontSize: "1.5em" }} className="card-text">
+            for {props.content.content}
+          </p>
           <div
             style={{ paddingTop: "5px", borderTop: "1px solid black" }}
             className="row justify-content-md-start"
           >
             <div className="col-2">
-              <button className="btn btn-block btn-primary">like</button>
+              <button type="button" className="btn btn-primary">
+                like
+              </button>
             </div>
             <div className="col-6">
               <button type="button" className="btn btn-outline-primary">
@@ -42,4 +64,4 @@ const Sorry = props => {
   );
 };
 
-export default Sorry;
+export default connect(null, { deleteSorry })(Sorry);

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { GET_SORRIES, ADD_SORRY } from "./types";
+import { GET_SORRIES, ADD_SORRY, DELETE_SORRY } from "./types";
 
 export const getSorries = () => dispatch => {
   axios
@@ -21,6 +21,18 @@ export const addSorry = content => dispatch => {
       dispatch({
         type: ADD_SORRY,
         content: res.data
+      });
+    })
+    .catch(e => console.log(e));
+};
+
+export const deleteSorry = id => dispatch => {
+  axios
+    .delete(`api/sorries/${id}`)
+    .then(res => {
+      dispatch({
+        type: DELETE_SORRY,
+        content: id
       });
     })
     .catch(e => console.log(e));

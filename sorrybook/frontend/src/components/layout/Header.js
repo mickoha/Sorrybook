@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 const Header = props => {
   const profileID = 1;
-
   return (
     <div style={{ maxWidth: "1000px" }} className="container">
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
@@ -25,13 +24,16 @@ const Header = props => {
             <a className="nav-item nav-link" href="/">
               Sorries <span className="sr-only">(current)</span>
             </a>
-            <a className="nav-item nav-link" href={`profile/${profileID}`}>
+            <a className="nav-item nav-link" href={`/profile/${profileID}`}>
               Profile
+            </a>
+            <a className="nav-item nav-link" href="/register">
+              Register
             </a>
             <a className="nav-item nav-link" href="/login">
               Login
             </a>
-            <a className="nav-item nav-link" href="#">
+            <a className="nav-item nav-link" href="/">
               Logout
             </a>
           </div>
