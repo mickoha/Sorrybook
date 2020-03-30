@@ -6,5 +6,8 @@ urlpatterns = [
     path('', include('frontend.urls')),
     path('', include('sorries.urls')),
     path('', include('accounts.urls')),
-    re_path(r'^(?:.*)/?$', views.index)
+    path('', include('profiles.urls')),
+    re_path(r'login', views.index),
+    re_path(r'register', views.index),
+    re_path(r'profile/', views.index)
 ]

@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
+import { connect } from "react-redux";
+import { logoutUser } from "../../services/auth";
 
 const Header = props => {
-  const profileID = 1;
   return (
     <div style={{ maxWidth: "1000px" }} className="container">
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
@@ -24,18 +25,37 @@ const Header = props => {
             <a className="nav-item nav-link" href="/">
               Sorries <span className="sr-only">(current)</span>
             </a>
-            <a className="nav-item nav-link" href={`/profile/${profileID}`}>
-              Profile
-            </a>
-            <a className="nav-item nav-link" href="/register">
-              Register
-            </a>
-            <a className="nav-item nav-link" href="/login">
-              Login
-            </a>
-            <a className="nav-item nav-link" href="/">
-              Logout
-            </a>
+            {props.authReducer.isAuthenticated ? (
+              <a
+                className="nav-item nav-link"
+                href={`/profile/${props.authReducer.user.id}`}
+              >
+                Profile
+              </a>
+            ) : (
+              <a className="nav-item nav-link" href="/register">
+                Register
+              </a>
+            )}
+            {props.authReducer.isAuthenticated ? (
+              <a
+                className="nav-item nav-link"
+                onClick={props.logoutUser}
+                href="/"
+              >
+                Logout
+              </a>
+            ) : (
+              <a className="nav-item nav-link" href="/login">
+                Login
+              </a>
+            )}
+
+            {props.authReducer.isAuthenticated && (
+              <span className="navbar-text mg-10 pull-right">
+                <strong>Logged in as {props.authReducer.user.username}!</strong>
+              </span>
+            )}
           </div>
         </div>
       </nav>
@@ -43,4 +63,8 @@ const Header = props => {
   );
 };
 
-export default Header;
+const mapStateToProps = state => ({
+  authReducer: state.authReducer
+});
+
+export default connect(mapStateToProps, { logoutUser })(Header);

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import Link from "react-router-dom";
+import Link, { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { loginUser } from "../../services/auth";
 
-const Login1 = props => {
+const Login = props => {
   const [credentials, setCredentials] = useState({
     username: "",
     password: ""
@@ -13,8 +15,12 @@ const Login1 = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log("login");
+    props.loginUser(credentials.username, credentials.password);
   };
+
+  if (props.authReducer.isAuthenticated) {
+    return <Redirect to={`profile/${props.authReducer.user.id}`} />;
+  }
   return (
     <div className="col-md-6 m-auto">
       <div className="card card-body mt-5">
@@ -56,4 +62,8 @@ const Login1 = props => {
   );
 };
 
-export default Login1;
+const mapStateToProps = state => ({
+  authReducer: state.authReducer
+});
+
+export default connect(mapStateToProps, { loginUser })(Login);

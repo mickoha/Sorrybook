@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from knox.models import AuthToken
+from profiles.serializers import ProfileSerializer
+from profiles.models import Profile
 
 # User serializer
 class UserSerializer(serializers.ModelSerializer):
@@ -11,6 +13,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 # Register serializer
 class RegisterSerializer(serializers.ModelSerializer):
+  profile = ProfileSerializer
+
   class Meta:
     model = User
     fields = ('id', 'username', 'email', 'password')
@@ -18,7 +22,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
   def create(self, validated_data):
     user = User.objects.create_user(validated_data['username'],validated_data['email'],validated_data['password'])
-    print(user)
+    Profile.objects.create(user=user)
     return user
 
 # Login serializer
@@ -27,9 +31,7 @@ class LoginSerializer(serializers.Serializer):
   password = serializers.CharField()
 
   def validate(self, data):
-    print(data)
     user = authenticate(**data)
-    print(user)
     if user and user.is_active:
       return user 
     raise serializers.ValidationError("Incorrect credentials")

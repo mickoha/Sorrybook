@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { registerUser } from "../../services/auth";
+import { createMessage } from "../../services/messages";
 
 const Register = props => {
   const [information, setInformation] = useState({
@@ -10,12 +14,27 @@ const Register = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log("register");
+    if (information.password1 !== information.password2) {
+      props.createMessage({ passwordsNotMatch: "Passwords do not match" });
+    } else {
+      const user = {
+        username: information.username,
+        password: information.password1,
+        email: information.email
+      };
+
+      props.registerUser(user);
+    }
   };
 
   const handleChange = e => {
-    setInformation({ ...information, [e.target.name]: [e.target.value] });
+    setInformation({ ...information, [e.target.name]: e.target.value });
   };
+
+  if (props.authReducer.isAuthenticated) {
+    return <Redirect to={`profile/${props.authReducer.user.id}`} />;
+  }
+
   return (
     <div>
       <div className="col-md-6 m-auto">
@@ -77,4 +96,10 @@ const Register = props => {
   );
 };
 
-export default Register;
+const mapStateToProps = state => ({
+  authReducer: state.authReducer
+});
+
+export default connect(mapStateToProps, { registerUser, createMessage })(
+  Register
+);

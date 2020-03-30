@@ -9,3 +9,6 @@ class SorryViewSet(viewsets.ModelViewSet):
     permissions.AllowAny
   ]
   serializer_class = SorrySerializer
+
+  def perform_create(self, serializer):
+    serializer.save(owner=self.request.user)

@@ -22,7 +22,10 @@ const Sorry = props => {
           <div className="row justify-content-md-start">
             <div className="col-10">
               <h3>
-                Admin as <i>{apologist}</i>
+                <a href={`profile/${props.content.owner}`}>
+                  {props.content.owner}
+                </a>{" "}
+                as <i>{apologist}</i>
               </h3>
             </div>
             <div className="col-2">
