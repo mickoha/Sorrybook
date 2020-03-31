@@ -53,7 +53,7 @@ const Header = props => {
 
             {props.authReducer.isAuthenticated && (
               <span className="navbar-text mg-10 pull-right">
-                <strong>Logged in as {props.authReducer.user.username}!</strong>
+                <strong>Logged in as {props.authReducer.user.username}</strong>
               </span>
             )}
           </div>

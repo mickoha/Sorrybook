@@ -6,8 +6,9 @@ class ProfileSerializer(serializers.ModelSerializer):
   class Meta:
     model = Profile
     fields = '__all__'
-
-class UserSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = User
-    fields = ['id', 'username', 'email']
+    
+  def patch(self, instance, validated_data):
+    print(validated_data)
+    instance.picture = validated_data.get('picture', instance.picture)
+    instance.bio = validated_data.get('bio', instance.bio)
+    return instance

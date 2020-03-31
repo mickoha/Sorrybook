@@ -21,6 +21,7 @@ import Register from "./auth/Register";
 import Profile from "./profile/Profile";
 
 import { loadUser } from "../services/auth";
+import { getUsers } from "../services/users";
 
 const alertOptions = {
   timeout: 3000,
@@ -30,6 +31,9 @@ const alertOptions = {
 const App = props => {
   useEffect(() => {
     store.dispatch(loadUser());
+  }, []);
+  useEffect(() => {
+    store.dispatch(getUsers());
   }, []);
 
   return (

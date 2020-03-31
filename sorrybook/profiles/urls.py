@@ -1,8 +1,8 @@
-from rest_framework import routers
-from .api import ProfileViewSet, UserViewSet
 
-router = routers.DefaultRouter()
-router.register('api/profiles', ProfileViewSet, 'profiles')
-router.register('api/users', UserViewSet, 'users')
+from django.urls import path, include, re_path
+from .api import ProfileAPI, UserViewSet
 
-urlpatterns = router.urls
+urlpatterns = [
+  re_path(r'api/users', UserViewSet.as_view({'get': 'list'})),
+  re_path(r'api/profiles/(?P<pk>[^/.]+)/$', ProfileAPI.as_view())
+]

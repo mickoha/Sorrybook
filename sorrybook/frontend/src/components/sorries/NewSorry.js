@@ -11,6 +11,7 @@ const NewSorry = props => {
   const handleSubmit = e => {
     e.preventDefault();
     props.addSorry(apologistContent);
+    setApologistContent({ apologist: "", content: "" });
   };
 
   const handleChange = e => {
