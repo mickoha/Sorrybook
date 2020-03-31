@@ -7,6 +7,7 @@ from .serializers import ProfileSerializer
 from accounts.serializers import UserSerializer
 from django.contrib.auth.models import User
 
+    
 class ProfileAPI(generics.RetrieveAPIView):
   permissions_classes = [
     permissions.IsAuthenticated
@@ -23,14 +24,16 @@ class ProfileAPI(generics.RetrieveAPIView):
 
   def patch(self, request, *args, **kwargs):
     instance = self.get_object()
-    serializer = self.get_serializer(instance, data=request.data, partial=True)
-    print(serializer)
-    serializer.is_valid(raise_exception=True)
-    profile = serializer.save()
+    if instance.user == request.user:
+      serializer = self.get_serializer(instance, data=request.data, partial=True)
+      serializer.is_valid(raise_exception=True)
+      profile = serializer.save()
 
-    return Response({
-      "profile": ProfileSerializer(profile, context=self.get_serializer_context()).data
-    })
+      return Response({
+        "profile": ProfileSerializer(profile, context=self.get_serializer_context()).data
+      })
+    else:
+      return Response(status=400)
 
 
 class UserViewSet(viewsets.ModelViewSet):

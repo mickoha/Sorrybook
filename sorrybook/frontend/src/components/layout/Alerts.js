@@ -15,6 +15,13 @@ export class Alerts extends Component {
       if (errorsReducer.msg.username) {
         alert.error(`Username: ${errorsReducer.msg.username.join()}`);
       }
+
+      if (errorsReducer.msg.bio) {
+        alert.error(`About me: ${errorsReducer.msg.bio.join()}`);
+      }
+      if (errorsReducer.msg.picture) {
+        alert.error(`Picture: ${errorsReducer.msg.picture.join()}`);
+      }
     }
 
     if (messagesReducer != prevProps.messagesReducer) {

@@ -11,6 +11,24 @@ const Sorries = props => {
     props.getSorries();
   }, []);
 
+  const newPostButton = () => {
+    if (!props.authReducer.isAuthenticated) {
+      return <div className="col-8"></div>;
+    } else {
+      return (
+        <div style={{ paddingTop: "5px" }} className="col-8">
+          <button
+            type="button"
+            className="btn btn-primary"
+            data-toggle="modal"
+            data-target="#newSorryModal"
+          >
+            New post
+          </button>
+        </div>
+      );
+    }
+  };
   return (
     <div>
       <NewSorry />
@@ -21,16 +39,7 @@ const Sorries = props => {
             <div className="col-2">
               <h2>Sorries</h2>
             </div>
-            <div style={{ paddingTop: "5px" }} className="col-8">
-              <button
-                type="button"
-                className="btn btn-primary"
-                data-toggle="modal"
-                data-target="#newSorryModal"
-              >
-                New post
-              </button>
-            </div>
+            {newPostButton()}
             <div style={{ paddingTop: "5px" }} className="dropdown">
               <button
                 className="btn btn-outline-info dropdown-toggle"

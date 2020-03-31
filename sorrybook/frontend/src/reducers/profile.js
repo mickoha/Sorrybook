@@ -1,4 +1,4 @@
-import { GET_PROFILE } from "../services/types";
+import { GET_PROFILE, UPDATE_PROFILE } from "../services/types";
 
 const reducer = (state = {}, action) => {
   switch (action.type) {
@@ -6,7 +6,8 @@ const reducer = (state = {}, action) => {
       return {
         profile: action.content
       };
-
+    case UPDATE_PROFILE:
+      return action.content;
     default:
       return state;
   }

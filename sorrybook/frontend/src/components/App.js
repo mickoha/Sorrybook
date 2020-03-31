@@ -22,6 +22,7 @@ import Profile from "./profile/Profile";
 
 import { loadUser } from "../services/auth";
 import { getUsers } from "../services/users";
+import { getSorries } from "../services/sorryService";
 
 const alertOptions = {
   timeout: 3000,

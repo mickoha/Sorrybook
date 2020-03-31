@@ -7,8 +7,4 @@ class ProfileSerializer(serializers.ModelSerializer):
     model = Profile
     fields = '__all__'
     
-  def patch(self, instance, validated_data):
-    print(validated_data)
-    instance.picture = validated_data.get('picture', instance.picture)
-    instance.bio = validated_data.get('bio', instance.bio)
-    return instance
+  

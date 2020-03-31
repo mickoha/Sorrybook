@@ -32,7 +32,7 @@ const Register = props => {
   };
 
   if (props.authReducer.isAuthenticated) {
-    return <Redirect to={`profile/${props.authReducer.user.id}`} />;
+    return <Redirect to="/" />;
   }
 
   return (

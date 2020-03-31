@@ -17,7 +17,7 @@ const Sorry = props => {
   };
 
   var username = "";
-
+  // If users not ready, return loading
   if (!props.usersReducer.users) {
     return <h2>Loading...</h2>;
   } else {
@@ -25,6 +25,27 @@ const Sorry = props => {
       user => user.id === props.content.owner
     );
     username = user.username;
+
+    // Show deletebutton if User is content owner
+    const deleteButton = () => {
+      if (!props.authReducer.isAuthenticated) {
+        return <div className="col-2"></div>;
+      }
+
+      if (user.id === props.authReducer.user.id) {
+        return (
+          <div className="col-2">
+            <button
+              onClick={e => handleDelete(e)}
+              type="button"
+              className="btn btn-outline-danger"
+            >
+              delete
+            </button>
+          </div>
+        );
+      }
+    };
     return (
       <div className="card">
         <div className="card-body">
@@ -32,19 +53,13 @@ const Sorry = props => {
             <div className="row justify-content-md-start">
               <div className="col-10">
                 <h3>
-                  <a href={`profile/${props.content.owner}`}>{username}</a> as{" "}
-                  <i>{apologist}</i>
+                  <a href={`profile/${props.content.owner}`}>
+                    <u>{username}</u>
+                  </a>{" "}
+                  as <i>{apologist}</i>
                 </h3>
               </div>
-              <div className="col-2">
-                <button
-                  onClick={e => handleDelete(e)}
-                  type="button"
-                  className="btn btn-outline-danger"
-                >
-                  delete
-                </button>
-              </div>
+              {deleteButton()}
             </div>
 
             <h4>Sorry</h4>
@@ -77,7 +92,8 @@ const Sorry = props => {
 };
 
 const mapStateToProps = state => ({
-  usersReducer: state.usersReducer
+  usersReducer: state.usersReducer,
+  authReducer: state.authReducer
 });
 
 export default connect(mapStateToProps, { deleteSorry })(Sorry);
