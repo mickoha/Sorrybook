@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { deleteSorry } from "../../services/sorryService";
+import { deleteSorry, likeSorry } from "../../services/sorryService";
 
 const Sorry = props => {
   var apologist = "himself";
@@ -13,7 +13,12 @@ const Sorry = props => {
 
   const handleDelete = e => {
     e.preventDefault();
-    props.deleteSorry(props.content.id);
+    props.deleteSorry({ id: props.content.id });
+  };
+
+  const handleLike = e => {
+    e.preventDefault();
+    props.likeSorry(props.content.id);
   };
 
   var username = "";
@@ -66,12 +71,19 @@ const Sorry = props => {
             <p style={{ fontSize: "1.5em" }} className="card-text">
               for {props.content.content}
             </p>
+            <div className="row justify-content-md-start">
+              <div className="col-2">{props.content.likes.length} likes</div>
+            </div>
             <div
               style={{ paddingTop: "5px", borderTop: "1px solid black" }}
               className="row justify-content-md-start"
             >
               <div className="col-2">
-                <button type="button" className="btn btn-primary">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleLike}
+                >
                   like
                 </button>
               </div>
@@ -96,4 +108,4 @@ const mapStateToProps = state => ({
   authReducer: state.authReducer
 });
 
-export default connect(mapStateToProps, { deleteSorry })(Sorry);
+export default connect(mapStateToProps, { likeSorry, deleteSorry })(Sorry);

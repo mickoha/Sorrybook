@@ -1,7 +1,11 @@
 from rest_framework import routers
-from .api import SorryViewSet
+from django.urls import path, re_path, include
+from .api import SorryViewSet, like_sorry
 
 router = routers.DefaultRouter()
 router.register('api/sorries', SorryViewSet, 'sorries')
 
-urlpatterns = router.urls
+urlpatterns = [
+  path('', include(router.urls)),
+  re_path(r'api/like/$', like_sorry, name="like")
+]

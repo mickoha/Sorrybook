@@ -1,4 +1,9 @@
-import { GET_SORRIES, ADD_SORRY, DELETE_SORRY } from "../services/types";
+import {
+  GET_SORRIES,
+  ADD_SORRY,
+  DELETE_SORRY,
+  LIKE_SORRY
+} from "../services/types";
 
 const initialState = {
   sorries: []
@@ -20,6 +25,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         sorries: state.sorries.filter(sorry => sorry.id !== action.content)
+      };
+    case LIKE_SORRY:
+      return {
+        ...state,
+        sorries: state.sorries.map(sorry =>
+          sorry.id !== action.content.id ? sorry : action.content
+        )
       };
     default:
       return state;

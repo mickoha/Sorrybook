@@ -1,8 +1,14 @@
 import axios from "axios";
 
-import { GET_SORRIES, ADD_SORRY, DELETE_SORRY, GET_ERRORS } from "./types";
+import {
+  GET_SORRIES,
+  ADD_SORRY,
+  DELETE_SORRY,
+  GET_ERRORS,
+  LIKE_SORRY
+} from "./types";
 
-import { createMessage } from "./messages";
+import { createMessage, returnErrors } from "./messages";
 import { tokenConfig } from "./auth";
 
 export const getSorries = () => dispatch => {
@@ -37,14 +43,7 @@ export const addSorry = content => (dispatch, getState) => {
       });
     })
     .catch(e => {
-      const error = {
-        msg: e.response.data,
-        status: e.response.status
-      };
-      dispatch({
-        type: GET_ERRORS,
-        content: error
-      });
+      dispatch(returnErrors(e.response.data, e.response.status));
     });
 };
 
@@ -59,13 +58,23 @@ export const deleteSorry = id => (dispatch, getState) => {
       });
     })
     .catch(e => {
-      const error = {
-        msg: e.response.data,
-        status: e.response.status
-      };
+      dispatch(returnErrors(e.response.data, e.response.status));
+    });
+};
+
+export const likeSorry = id => (dispatch, getState) => {
+  const data = {
+    id: id
+  };
+  axios
+    .post("api/like/", data, tokenConfig(getState))
+    .then(res =>
       dispatch({
-        type: GET_ERRORS,
-        content: error
-      });
+        type: LIKE_SORRY,
+        content: res.data
+      })
+    )
+    .catch(e => {
+      dispatch(returnErrors(e.response.data, e.response.status));
     });
 };

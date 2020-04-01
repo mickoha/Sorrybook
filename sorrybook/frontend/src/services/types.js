@@ -1,6 +1,7 @@
 export const GET_SORRIES = "GET_SORRIES";
 export const ADD_SORRY = "ADD_SORRY";
 export const DELETE_SORRY = "DELETE_SORRY";
+export const LIKE_SORRY = "LIKE_SORRY";
 export const GET_ERRORS = "GET_ERROS";
 export const CREATE_MESSAGE = "CREATE_MESSAGE";
 export const USER_LOADED = "USER_LOADED";
