@@ -51,6 +51,44 @@ const Sorry = props => {
         );
       }
     };
+
+    const likeButton = () => {
+      if (!props.authReducer.isAuthenticated) {
+        return (
+          <div className="col-2">
+            <button type="button" className="btn btn-primary" disabled>
+              like
+            </button>
+          </div>
+        );
+      }
+
+      if (props.content.likes.includes(props.authReducer.user.id)) {
+        return (
+          <div className="col-2">
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={handleLike}
+            >
+              unlike
+            </button>
+          </div>
+        );
+      } else {
+        return (
+          <div className="col-2">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleLike}
+            >
+              like
+            </button>
+          </div>
+        );
+      }
+    };
     return (
       <div className="card">
         <div className="card-body">
@@ -78,15 +116,7 @@ const Sorry = props => {
               style={{ paddingTop: "5px", borderTop: "1px solid black" }}
               className="row justify-content-md-start"
             >
-              <div className="col-2">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={handleLike}
-                >
-                  like
-                </button>
-              </div>
+              {likeButton()}
               <div className="col-6">
                 <button type="button" className="btn btn-outline-primary">
                   comment
