@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import {
+  ADD_USER,
   USER_LOADED,
   USER_LOADING,
   AUTH_ERROR,
@@ -76,6 +77,10 @@ export const registerUser = ({ username, password, email }) => dispatch => {
     .then(res => {
       dispatch({
         type: REGISTER_SUCCESS,
+        content: res.data
+      });
+      dispatch({
+        type: ADD_USER,
         content: res.data
       });
     })

@@ -1,4 +1,4 @@
-import { GET_USERS } from "../services/types";
+import { GET_USERS, ADD_USER } from "../services/types";
 
 const reducer = (state = [], action) => {
   switch (action.type) {
@@ -7,6 +7,11 @@ const reducer = (state = [], action) => {
         ...state,
         users: action.content
       };
+    case ADD_USER:
+      return {
+        ...state,
+        users: state.users.concat(action.content.user)
+      }
 
     default:
       return state;

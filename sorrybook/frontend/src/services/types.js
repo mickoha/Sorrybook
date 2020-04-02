@@ -13,5 +13,6 @@ export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAILED = "REGISTER_FAILED";
 export const GET_USERS = "GET_USERS";
+export const ADD_USER = "ADD_USER";
 export const GET_PROFILE = "GET_PROFILE";
 export const UPDATE_PROFILE = "UPDATE_PROFILE";

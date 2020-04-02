@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { updateProfile } from "../../services/users";
 
 const UpdateProfile = props => {
-  console.log(props);
   const [information, setInformation] = useState({
     picture: props.profileReducer.profile.picture,
     bio: props.profileReducer.profile.bio
@@ -15,7 +14,6 @@ const UpdateProfile = props => {
     props.updateProfile(id, content);
   };
 
-  console.log(props);
   const handleChange = e => {
     setInformation({
       ...information,
