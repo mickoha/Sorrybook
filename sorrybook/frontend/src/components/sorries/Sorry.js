@@ -13,7 +13,7 @@ const Sorry = props => {
 
   const handleDelete = e => {
     e.preventDefault();
-    props.deleteSorry({ id: props.content.id });
+    props.deleteSorry(props.content.id);
   };
 
   const handleLike = e => {

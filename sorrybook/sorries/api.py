@@ -27,7 +27,7 @@ class SorryViewSet(viewsets.ModelViewSet):
 
 @api_view(['POST'])
 def like_sorry(request):
-  sorry = get_object_or_404(Sorry, id=request.data.get('id'))
+  sorry = get_object_or_404(Sorry, id=request.data)
   if sorry.likes.filter(id=request.user.id).exists():
     sorry.likes.remove(request.user)
     serializer = SorrySerializer(sorry)

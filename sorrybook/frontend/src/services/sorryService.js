@@ -63,11 +63,8 @@ export const deleteSorry = id => (dispatch, getState) => {
 };
 
 export const likeSorry = id => (dispatch, getState) => {
-  const data = {
-    id: id
-  };
   axios
-    .post("api/like/", data, tokenConfig(getState))
+    .post("api/like/", id, tokenConfig(getState))
     .then(res =>
       dispatch({
         type: LIKE_SORRY,
