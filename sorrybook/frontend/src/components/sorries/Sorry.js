@@ -1,31 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { deleteSorry, likeSorry } from "../../services/sorryService";
+import { getComments } from "../../services/comments";
 
 const Sorry = props => {
-  var apologist = "himself";
-  if (props.content.apologist !== "") {
-    apologist = props.content.apologist;
-  }
-
-  const date = props.content.created_at.split("T");
-  const time = date[1].split(".");
-
-  const handleDelete = e => {
-    e.preventDefault();
-    props.deleteSorry(props.content.id);
-  };
-
-  const handleLike = e => {
-    e.preventDefault();
-    props.likeSorry(props.content.id);
-  };
-
-  var username = "";
-  // If users not ready, return loading
   if (!props.usersReducer.users) {
     return <h2>Loading...</h2>;
   } else {
+    // Setup apologist
+    var apologist = "himself";
+    if (props.content.apologist !== "") {
+      apologist = props.content.apologist;
+    }
+
+    // Make time
+    const date = props.content.created_at.split("T");
+    const time = date[1].split(".");
+
+    const handleCommentsOpen = e => {
+      const content = {
+        sorry: props.content,
+        username: username,
+        comments: null
+      };
+
+      props.getComments(content);
+    };
+
+    const handleDelete = e => {
+      e.preventDefault();
+      props.deleteSorry(props.content.id);
+    };
+
+    const handleLike = e => {
+      e.preventDefault();
+      props.likeSorry(props.content.id);
+    };
+
+    var username = "";
+    // If users not ready, return loading
+
     const user = props.usersReducer.users.find(
       user => user.id === props.content.owner
     );
@@ -90,40 +104,50 @@ const Sorry = props => {
       }
     };
     return (
-      <div className="card">
-        <div className="card-body">
-          <div className="container">
-            <div className="row justify-content-md-start">
-              <div className="col-10">
-                <h3>
-                  <a href={`profile/${props.content.owner}`}>
-                    <u>{username}</u>
-                  </a>{" "}
-                  as <i>{apologist}</i>
-                </h3>
+      <div>
+        <div className="card">
+          <div className="card-body">
+            <div className="container">
+              <div className="row justify-content-md-start">
+                <div className="col-10">
+                  <h3>
+                    <a href={`profile/${props.content.owner}`}>
+                      <u>{username}</u>
+                    </a>{" "}
+                    as <i>{apologist}</i>
+                  </h3>
+                </div>
+                {deleteButton()}
               </div>
-              {deleteButton()}
-            </div>
 
-            <h4>Sorry</h4>
-            <p style={{ fontSize: "1.5em" }} className="card-text">
-              for {props.content.content}
-            </p>
-            <div className="row justify-content-md-start">
-              <div className="col-2">{props.content.likes.length} likes</div>
-            </div>
-            <div
-              style={{ paddingTop: "5px", borderTop: "1px solid black" }}
-              className="row justify-content-md-start"
-            >
-              {likeButton()}
-              <div className="col-6">
-                <button type="button" className="btn btn-outline-primary">
-                  comment
-                </button>
+              <h4>Sorry</h4>
+              <p style={{ fontSize: "1.5em" }} className="card-text">
+                for {props.content.content}
+              </p>
+              <div className="row justify-content-md-start">
+                <div className="col-2">{props.content.likes.length} likes</div>
+                <div className="col-4">{props.content.comments} comments</div>
               </div>
-              <div className="col-4">
-                {date[0]} {time[0]}
+              <div
+                style={{ paddingTop: "5px", borderTop: "1px solid black" }}
+                className="row justify-content-md-start"
+              >
+                {likeButton()}
+                <div className="col-6">
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    name={props.content.id}
+                    onClick={e => handleCommentsOpen(e)}
+                    data-toggle="modal"
+                    data-target="#commentModal"
+                  >
+                    comment
+                  </button>
+                </div>
+                <div className="col-4">
+                  {date[0]} {time[0]}
+                </div>
               </div>
             </div>
           </div>
@@ -135,7 +159,12 @@ const Sorry = props => {
 
 const mapStateToProps = state => ({
   usersReducer: state.usersReducer,
-  authReducer: state.authReducer
+  authReducer: state.authReducer,
+  commentsReducer: state.commentsReducer
 });
 
-export default connect(mapStateToProps, { likeSorry, deleteSorry })(Sorry);
+export default connect(mapStateToProps, {
+  likeSorry,
+  deleteSorry,
+  getComments
+})(Sorry);

@@ -16,3 +16,7 @@ export const GET_USERS = "GET_USERS";
 export const ADD_USER = "ADD_USER";
 export const GET_PROFILE = "GET_PROFILE";
 export const UPDATE_PROFILE = "UPDATE_PROFILE";
+export const SET_CONTENT_COMMENTS = "SET_CONTENT_COMMENTS";
+export const COMMENTS_LOADING = "COMMENTS_LOADING";
+export const ADD_COMMENT = "ADD_COMMENT";
+export const DELETE_COMMENT = "DELETE_COMMENT";

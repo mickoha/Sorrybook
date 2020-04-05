@@ -15,14 +15,13 @@ import store from "../store";
 
 import Header from "./layout/Header";
 import Alerts from "./layout/Alerts";
-import Sorries from "./sorries/Sorries";
+import Sorries from "./layout/Sorries";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import Profile from "./profile/Profile";
 
 import { loadUser } from "../services/auth";
 import { getUsers } from "../services/users";
-import { getSorries } from "../services/sorryService";
 
 const alertOptions = {
   timeout: 3000,
