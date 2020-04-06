@@ -6,14 +6,14 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
   REGISTER_FAILED,
-  REGISTER_SUCCESS
+  REGISTER_SUCCESS,
 } from "../services/types";
 
 const initialState = {
   token: localStorage.getItem("token"),
   isAuthenticated: null,
   isLoading: false,
-  user: null
+  user: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -21,14 +21,14 @@ const reducer = (state = initialState, action) => {
     case USER_LOADING:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     case USER_LOADED:
       return {
         ...state,
         isAuthenticated: true,
         isLoading: false,
-        user: action.content
+        user: action.content,
       };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
@@ -37,7 +37,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         ...action.content,
         isAuthenticated: true,
-        isLoading: false
+        isLoading: false,
       };
     case AUTH_ERROR:
     case LOGIN_FAILED:
@@ -49,7 +49,7 @@ const reducer = (state = initialState, action) => {
         token: null,
         isAuthenticated: null,
         isLoading: null,
-        user: null
+        user: null,
       };
 
     default:

@@ -31,7 +31,12 @@ export class Alerts extends Component {
       if (messagesReducer.sorryAdded) {
         alert.success(messagesReducer.sorryAdded);
       }
-
+      if (messagesReducer.commentAdded) {
+        alert.success(messagesReducer.commentAdded);
+      }
+      if (messagesReducer.commentDeleted) {
+        alert.success(messagesReducer.commentDeleted);
+      }
       if (messagesReducer.passwordsNotMatch) {
         alert.error(messagesReducer.passwordsNotMatch);
       }
@@ -45,9 +50,9 @@ export class Alerts extends Component {
     );
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   errorsReducer: state.errorsReducer,
-  messagesReducer: state.messagesReducer
+  messagesReducer: state.messagesReducer,
 });
 
 export default connect(mapStateToProps)(withAlert()(Alerts));

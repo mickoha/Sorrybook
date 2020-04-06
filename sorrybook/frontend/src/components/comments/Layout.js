@@ -5,7 +5,7 @@ import NewComment from "./NewComment";
 import Comment from "./Comment";
 import Sorry from "./Sorry";
 
-const Comments = props => {
+const Comments = (props) => {
   var likes;
   if (props.commentsReducer.sorry.likes) {
     likes = props.commentsReducer.sorry.likes.length;
@@ -47,7 +47,7 @@ const Comments = props => {
               {props.commentsReducer.comments != null &&
                 props.commentsReducer.comments.length !== 0 && (
                   <ul className="list-group">
-                    {props.commentsReducer.comments.map(comment => (
+                    {props.commentsReducer.comments.map((comment) => (
                       <li className="list-group-item" key={comment.id}>
                         <Comment content={comment} />
                       </li>
@@ -62,9 +62,9 @@ const Comments = props => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   commentsReducer: state.commentsReducer,
-  authReducer: state.authReducer
+  authReducer: state.authReducer,
 });
 
 export default connect(mapStateToProps)(Comments);
