@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 
 import { Provider as AlertProvider } from "react-alert";
@@ -19,16 +19,17 @@ import Sorries from "./layout/Sorries";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import Profile from "./profile/Profile";
+import Messenger from "./messenger/Messenger";
 
 import { loadUser } from "../services/auth";
 import { getUsers } from "../services/users";
 
 const alertOptions = {
   timeout: 3000,
-  position: "top center"
+  position: "top center",
 };
 
-const App = props => {
+const App = (props) => {
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
@@ -52,6 +53,7 @@ const App = props => {
               />
               <Route exact path="/login" render={() => <Login />} />
               <Route exact path="/register" render={() => <Register />} />
+              <Route exact path="/messenger" render={() => <Messenger />} />
             </Switch>
           </Fragment>
         </Router>

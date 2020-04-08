@@ -6,6 +6,6 @@ router = routers.DefaultRouter()
 router.register('api/sorries', SorryViewSet, 'sorries')
 
 urlpatterns = [
-  path('', include(router.urls)),
-  re_path(r'api/like/$', like_sorry, name="like")
+    path('', include(router.urls)),
+    re_path(r'api/like/$', like_sorry, name="like")
 ]

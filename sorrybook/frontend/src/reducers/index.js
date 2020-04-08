@@ -6,6 +6,7 @@ import auth from "./auth";
 import users from "./users";
 import profile from "./profile";
 import comments from "./comments";
+import messenger from "./messenger";
 
 export default combineReducers({
   sorriesReducer: sorries,
@@ -14,5 +15,6 @@ export default combineReducers({
   authReducer: auth,
   usersReducer: users,
   profileReducer: profile,
-  commentsReducer: comments
+  commentsReducer: comments,
+  messengerReducer: messenger,
 });

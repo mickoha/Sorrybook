@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { logoutUser } from "../../services/auth";
 
-const Header = props => {
+const Header = (props) => {
   return (
     <div style={{ maxWidth: "1000px" }} className="container">
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
@@ -52,6 +52,12 @@ const Header = props => {
             )}
 
             {props.authReducer.isAuthenticated && (
+              <a className="nav-item nav-link" href="/messenger">
+                Messenger
+              </a>
+            )}
+
+            {props.authReducer.isAuthenticated && (
               <span className="navbar-text mg-10 pull-right">
                 <strong>Logged in as {props.authReducer.user.username}</strong>
               </span>
@@ -63,8 +69,8 @@ const Header = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  authReducer: state.authReducer
+const mapStateToProps = (state) => ({
+  authReducer: state.authReducer,
 });
 
 export default connect(mapStateToProps, { logoutUser })(Header);
