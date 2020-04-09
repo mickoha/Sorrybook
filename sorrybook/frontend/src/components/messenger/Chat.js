@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+
 import { setMessages, newMessage } from "../../services/messenger";
+import { useWindowSize } from "../layout/size";
 
 import Message from "./Message";
 
@@ -11,10 +13,6 @@ const Chat = (props) => {
   const [message, setMessage] = useState("");
   const [roomLoaded, setRoomLoaded] = useState(false);
   const [lastRoom, setLastRoom] = useState(null);
-
-  if (props.chatRoom === null) {
-    return <h1>Please, select chat room</h1>;
-  }
 
   //Socket connection
   const waitForSocketConnection = (callback) => {
@@ -31,26 +29,25 @@ const Chat = (props) => {
     }, 100);
   };
 
-  if (props.chatRoom !== lastRoom && roomLoaded) {
-    console.log("moi");
+  if (props.messengerReducer.currentRoom !== lastRoom && roomLoaded) {
     WebSocketInstance.disconnect();
     setRoomLoaded(false);
   }
 
-  if (props.chatRoom !== null && !roomLoaded) {
+  if (props.messengerReducer.currentRoom !== null && !roomLoaded) {
     waitForSocketConnection(() => {
       setLoaded(true);
     });
 
-    WebSocketInstance.connect(props.chatRoom);
+    WebSocketInstance.connect(props.messengerReducer.currentRoom);
     setRoomLoaded(true);
-    setLastRoom(props.chatRoom);
+    setLastRoom(props.messengerReducer.currentRoom);
   }
 
   if (loaded) {
     WebSocketInstance.fetchMessages(
       props.authReducer.user.username,
-      props.chatRoom
+      props.messengerReducer.currentRoom
     );
     setLoaded(false);
   }
@@ -66,7 +63,7 @@ const Chat = (props) => {
     const messageObject = {
       from: props.authReducer.user.username,
       content: message,
-      chatId: props.chatRoom,
+      chatId: props.messengerReducer.currentRoom,
     };
 
     WebSocketInstance.newChatMessage(messageObject);
@@ -78,62 +75,149 @@ const Chat = (props) => {
     table.scrollTop = table.scrollHeight;
   };
 
-  if (props.messageReducer !== null) {
+  if (props.messengerReducer.messages !== null) {
     setTimeout(scrollBot, 1000);
   }
 
-  return (
-    <div
-      className="col-8"
-      style={{
-        height: "600px",
-        padding: "0 10px",
-      }}
-    >
+  var size = useWindowSize();
+  if (size[0] < 500) {
+    return (
       <div
-        id="messageTable"
+        className="col-8"
         style={{
-          backgroundColor: "#f1f1f1",
-          height: "530px",
-          overflowY: "scroll",
+          height: "600px",
+          padding: "0 10px",
         }}
       >
-        {props.messengerReducer === null && <h3>Loading...</h3>}
-        {props.messengerReducer !== null &&
-          props.messengerReducer.map((message) => (
-            <Message key={message.id} content={message} />
-          ))}
-      </div>
-      <form>
-        <div style={{ paddingTop: "10xp" }} className="form-inline">
-          <input
-            style={{ width: "345px" }}
-            type="text"
-            className="form-control"
-            value={message}
-            aria-describedby="texthelp"
-            placeholder="Enter message"
-            onKeyPress={(e) => {
-              e.key === "Enter" && sendMessage(e);
-            }}
-            onChange={(e) => handleMessageChange(e)}
-          />
-          <button
-            onClick={(e) => sendMessage(e)}
-            type="button"
-            className="btn btn-primary"
-          >
-            send
-          </button>
+        <div
+          className="modal fade"
+          id="chatTableModal"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="chatTableModal"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h3 className="modal-title" id="chatTableModalyes">
+                  Chat room
+                </h3>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div
+                  id="messageTable"
+                  style={{
+                    backgroundColor: "#7FFFD4",
+                    height: "530px",
+                    overflowY: "scroll",
+                  }}
+                >
+                  {props.messengerReducer.currentRoom === null && (
+                    <h1 style={{ paddingTop: "200px" }}>
+                      Please, select chat room
+                    </h1>
+                  )}
+
+                  {props.messengerReducer.messages !== null &&
+                    props.messengerReducer.messages.map((message) => (
+                      <Message key={message.id} content={message} />
+                    ))}
+                </div>
+                <form>
+                  <div style={{ paddingTop: "10xp" }} className="form-inline">
+                    <input
+                      style={{ width: "345px" }}
+                      type="text"
+                      className="form-control"
+                      value={message}
+                      aria-describedby="texthelp"
+                      placeholder="Enter message"
+                      onKeyPress={(e) => {
+                        e.key === "Enter" && sendMessage(e);
+                      }}
+                      onChange={(e) => handleMessageChange(e)}
+                    />
+                    <button
+                      onClick={(e) => sendMessage(e)}
+                      type="button"
+                      className="btn btn-primary"
+                    >
+                      send
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
-      </form>
-    </div>
-  );
+      </div>
+    );
+  } else {
+    return (
+      <div
+        className="col-8"
+        style={{
+          height: "600px",
+          padding: "0 10px",
+        }}
+      >
+        <div
+          id="messageTable"
+          style={{
+            backgroundColor: "#7FFFD4",
+            height: "530px",
+            overflowY: "scroll",
+          }}
+        >
+          {props.messengerReducer.currentRoom === null && (
+            <h1 style={{ paddingTop: "200px" }}>Please, select chat room</h1>
+          )}
+
+          {props.messengerReducer.messages !== null &&
+            props.messengerReducer.messages.map((message) => (
+              <Message key={message.id} content={message} />
+            ))}
+        </div>
+        <form>
+          <div style={{ paddingTop: "10xp" }} className="form-inline">
+            <input
+              style={{ width: "345px" }}
+              type="text"
+              className="form-control"
+              value={message}
+              aria-describedby="texthelp"
+              placeholder="Enter message"
+              onKeyPress={(e) => {
+                e.key === "Enter" && sendMessage(e);
+              }}
+              onChange={(e) => handleMessageChange(e)}
+            />
+            <button
+              onClick={(e) => sendMessage(e)}
+              type="button"
+              className="btn btn-primary"
+            >
+              send
+            </button>
+          </div>
+        </form>
+      </div>
+    );
+  }
 };
 
 const mapStateToProps = (state) => ({
   authReducer: state.authReducer,
-  messengerReducer: state.messengerReducer.messages,
+  messengerReducer: state.messengerReducer,
 });
 
 export default connect(mapStateToProps, {

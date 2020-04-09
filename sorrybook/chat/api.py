@@ -33,6 +33,10 @@ def get_last_10_messages(chatId):
 
 @api_view(['POST'])
 def create_chat(data):
+    if data.user is None:
+        return Response("user not logged in", status=500)
+
+    print(data.data)
     participants = data.data.pop('participants')
     chat = Chat()
     chat.save()
@@ -41,6 +45,7 @@ def create_chat(data):
         chat.participants.add(username)
     chat.save()
     returnedChat = ChatSerializer(chat).data
+
     return Response(returnedChat, status=201)
 
 

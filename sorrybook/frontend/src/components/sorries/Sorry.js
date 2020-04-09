@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { deleteSorry, likeSorry } from "../../services/sorryService";
 import { getComments } from "../../services/comments";
+import { useWindowSize } from "../layout/size";
 
-const Sorry = props => {
+const Sorry = (props) => {
   if (!props.usersReducer.users) {
     return <h2>Loading...</h2>;
   } else {
@@ -17,31 +18,54 @@ const Sorry = props => {
     const date = props.content.created_at.split("T");
     const time = date[1].split(".");
 
-    const handleCommentsOpen = e => {
+    const handleCommentsOpen = (e) => {
       const content = {
         sorry: props.content,
         username: username,
-        comments: null
+        comments: null,
       };
 
       props.getComments(content);
     };
 
-    const handleDelete = e => {
+    const handleDelete = (e) => {
       e.preventDefault();
       props.deleteSorry(props.content.id);
     };
 
-    const handleLike = e => {
+    const handleLike = (e) => {
       e.preventDefault();
       props.likeSorry(props.content.id);
     };
+
+    var classes = {};
+
+    const sizes = useWindowSize();
+    if (sizes[0] > 319) {
+      classes = {
+        ...classes,
+        likeButton: "col-4",
+        likes: "col-4",
+        comments: "col-7",
+        time: "col-6",
+      };
+    }
+
+    if (sizes[0] > 580) {
+      classes = {
+        ...classes,
+        likeButton: "col-2",
+        likes: "col-2",
+        comments: "col-4",
+        time: "col-4",
+      };
+    }
 
     var username = "";
     // If users not ready, return loading
 
     const user = props.usersReducer.users.find(
-      user => user.id === props.content.owner
+      (user) => user.id === props.content.owner
     );
     username = user.username;
 
@@ -55,7 +79,7 @@ const Sorry = props => {
         return (
           <div className="col-2">
             <button
-              onClick={e => handleDelete(e)}
+              onClick={(e) => handleDelete(e)}
               type="button"
               className="btn btn-outline-danger"
             >
@@ -69,7 +93,7 @@ const Sorry = props => {
     const likeButton = () => {
       if (!props.authReducer.isAuthenticated) {
         return (
-          <div className="col-2">
+          <div className={classes.likeButton}>
             <button type="button" className="btn btn-primary" disabled>
               like
             </button>
@@ -79,7 +103,7 @@ const Sorry = props => {
 
       if (props.content.likes.includes(props.authReducer.user.id)) {
         return (
-          <div className="col-2">
+          <div className={classes.likeButton}>
             <button
               type="button"
               className="btn btn-danger"
@@ -91,7 +115,7 @@ const Sorry = props => {
         );
       } else {
         return (
-          <div className="col-2">
+          <div className={classes.likeButton}>
             <button
               type="button"
               className="btn btn-primary"
@@ -125,8 +149,12 @@ const Sorry = props => {
                 for {props.content.content}
               </p>
               <div className="row justify-content-md-start">
-                <div className="col-2">{props.content.likes.length} likes</div>
-                <div className="col-4">{props.content.comments} comments</div>
+                <div className={classes.likes}>
+                  {props.content.likes.length} likes
+                </div>
+                <div className={classes.comments}>
+                  {props.content.comments} comments
+                </div>
               </div>
               <div
                 style={{ paddingTop: "5px", borderTop: "1px solid black" }}
@@ -138,14 +166,14 @@ const Sorry = props => {
                     type="button"
                     className="btn btn-outline-primary"
                     name={props.content.id}
-                    onClick={e => handleCommentsOpen(e)}
+                    onClick={(e) => handleCommentsOpen(e)}
                     data-toggle="modal"
                     data-target="#commentModal"
                   >
                     comment
                   </button>
                 </div>
-                <div className="col-4">
+                <div className={classes.time}>
                   {date[0]} {time[0]}
                 </div>
               </div>
@@ -157,14 +185,14 @@ const Sorry = props => {
   }
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   usersReducer: state.usersReducer,
   authReducer: state.authReducer,
-  commentsReducer: state.commentsReducer
+  commentsReducer: state.commentsReducer,
 });
 
 export default connect(mapStateToProps, {
   likeSorry,
   deleteSorry,
-  getComments
+  getComments,
 })(Sorry);

@@ -12,7 +12,7 @@ const Message = (props) => {
     textAlign: "left",
     lineHeight: "80%",
     paddingLeft: "10px",
-    backgroundColor: "#F5F5DC",
+    backgroundColor: "#ccffee",
     paddingBottom: "5px",
   };
 
@@ -20,7 +20,7 @@ const Message = (props) => {
     marginTop: "5px",
     width: "100%",
     textAlign: "right",
-    backgroundColor: "#ddd",
+    backgroundColor: "#a3c2c2",
     lineHeight: "80%",
     paddingRight: "10px",
     paddingBottom: "5px",

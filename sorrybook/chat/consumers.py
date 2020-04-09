@@ -45,12 +45,11 @@ class ChatConsumer(WebsocketConsumer):
             chat.save()
             return self.send_chat_message(content)
         else:
-            print('here')
             return Response('You are not part in this chat', status=400)
 
     commands = {
         'fetch_messages': fetch_messages,
-        'new_message': new_message
+        'new_message': new_message,
     }
 
     def connect(self):

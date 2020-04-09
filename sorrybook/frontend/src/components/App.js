@@ -20,6 +20,7 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import Profile from "./profile/Profile";
 import Messenger from "./messenger/Messenger";
+import { useWindowSize } from "./layout/size";
 
 import { loadUser } from "../services/auth";
 import { getUsers } from "../services/users";

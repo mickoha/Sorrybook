@@ -1,7 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
 
-const Banner = props => {
+import { useWindowSize } from "../layout/size";
+
+const Banner = (props) => {
+  var classes = {};
+
+  const size = useWindowSize();
+  if (size[0] < 390) {
+    classes = { ...classes, header: "col-4", postButton: "col-1" };
+  } else {
+    classes = { ...classes, header: "col-3", postButton: "col-6" };
+  }
+
   const newPostButton = () => {
     if (!props.authReducer.isAuthenticated) {
       return <div className="col-6"></div>;
@@ -23,7 +34,7 @@ const Banner = props => {
   return (
     <div style={{ margin: "auto", maxWidth: "700px" }} className="container">
       <div className="row justify-content-md-start">
-        <div className="col-3">
+        <div className={classes.header}>
           <h2>Sorries</h2>
         </div>
         {newPostButton()}
@@ -45,9 +56,6 @@ const Banner = props => {
             <a className="dropdown-item" href="#">
               Likes
             </a>
-            <a className="dropdown-item" href="#">
-              Followed
-            </a>
           </div>
         </div>
       </div>
@@ -55,8 +63,8 @@ const Banner = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  authReducer: state.authReducer
+const mapStateToProps = (state) => ({
+  authReducer: state.authReducer,
 });
 
 export default connect(mapStateToProps)(Banner);

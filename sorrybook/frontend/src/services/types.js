@@ -23,3 +23,5 @@ export const DELETE_COMMENT = "DELETE_COMMENT";
 export const SET_CHATROOMS = "SET_CHATROOMS";
 export const SET_MESSAGES = "SET_MESSAGES";
 export const NEW_MESSAGE = "NEW_MESSAGE";
+export const CURRENT_ROOM = "CURRENT_ROOM";
+export const ADD_CHATROOM = "ADD_CHATROOM";

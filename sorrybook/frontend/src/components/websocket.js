@@ -28,10 +28,6 @@ class WebSocketService {
     this.socketRef.onerror = (e) => {
       console.log(e.message);
     };
-    this.socketRef.onclose = () => {
-      console.log("WebSocket closed let's reopen");
-      this.connect();
-    };
   }
 
   disconnect() {
@@ -62,7 +58,6 @@ class WebSocketService {
   }
 
   newChatMessage(message) {
-    console.log(message);
     this.sendMessage({
       command: "new_message",
       from: message.from,
