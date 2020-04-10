@@ -11,7 +11,9 @@ const NewChat = (props) => {
   }
 
   const handleClickLeft = (user) => {
-    setUserListRight(userListRight.concat(user));
+    if (!userListRight.includes(user)) {
+      setUserListRight(userListRight.concat(user));
+    }
   };
 
   const handleClickRight = (user2) => {

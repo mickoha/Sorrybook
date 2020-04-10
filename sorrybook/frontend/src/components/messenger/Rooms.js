@@ -9,6 +9,7 @@ const Rooms = (props) => {
   const handleChatRoom = (chatId) => {
     props.currentRoom(chatId);
   };
+
   return (
     <div
       className="col-4"

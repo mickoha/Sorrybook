@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 
 import { getChatRooms } from "../../services/messenger";
 
+import { Redirect } from "react-router-dom";
+
 import Chat from "./Chat";
 import Rooms from "./Rooms";
 import NewChat from "./NewChat";
@@ -11,6 +13,10 @@ const Messenger = (props) => {
   useEffect(() => {
     props.getChatRooms();
   }, []);
+
+  if (props.authReducer.token === null) {
+    return <Redirect to="/login" />;
+  }
 
   return (
     <div

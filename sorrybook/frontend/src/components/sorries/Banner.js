@@ -2,15 +2,38 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { useWindowSize } from "../layout/size";
+import { sortByTime, sortByLikes, sortByComments } from "../../services/sort";
 
 const Banner = (props) => {
+  const handleSortLikes = (e) => {
+    props.sortByLikes();
+  };
+
+  const handleSortTime = (e) => {
+    props.sortByTime();
+  };
+
+  const handleSortComments = (e) => {
+    props.sortByComments();
+  };
+
   var classes = {};
 
   const size = useWindowSize();
   if (size[0] < 390) {
-    classes = { ...classes, header: "col-4", postButton: "col-1" };
+    classes = {
+      ...classes,
+      header: "col-4",
+      postButton: "col-1",
+      sortButton: "dropdown-menu col-2",
+    };
   } else {
-    classes = { ...classes, header: "col-3", postButton: "col-6" };
+    classes = {
+      ...classes,
+      header: "col-3",
+      postButton: "col-6",
+      sortButton: "dropdown-menu col-2",
+    };
   }
 
   const newPostButton = () => {
@@ -50,11 +73,14 @@ const Banner = (props) => {
             Sort by
           </button>
           <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a className="dropdown-item" href="#">
+            <a className="dropdown-item" onClick={(e) => handleSortTime(e)}>
               Time
             </a>
-            <a className="dropdown-item" href="#">
+            <a className="dropdown-item" onClick={(e) => handleSortLikes(e)}>
               Likes
+            </a>
+            <a className="dropdown-item" onClick={(e) => handleSortComments(e)}>
+              Comments
             </a>
           </div>
         </div>
@@ -67,4 +93,8 @@ const mapStateToProps = (state) => ({
   authReducer: state.authReducer,
 });
 
-export default connect(mapStateToProps)(Banner);
+export default connect(mapStateToProps, {
+  sortByTime,
+  sortByLikes,
+  sortByComments,
+})(Banner);

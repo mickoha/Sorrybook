@@ -8,7 +8,7 @@ import NewSorry from "../sorries/NewSorry";
 import Banner from "../sorries/Banner";
 import Comment from "../comments/Layout";
 
-const Sorries = props => {
+const Sorries = (props) => {
   useEffect(() => {
     props.getSorries();
   }, []);
@@ -21,7 +21,7 @@ const Sorries = props => {
 
       <div style={{ margin: "auto", maxWidth: "700px" }} className="container">
         <ul className="list-group">
-          {props.sorriesReducer.map(sorry => {
+          {props.sorriesReducer.sorries.map((sorry) => {
             return (
               <li className="list-group-item" key={sorry.id}>
                 <Sorry content={sorry} />
@@ -34,8 +34,8 @@ const Sorries = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  sorriesReducer: state.sorriesReducer.sorries
+const mapStateToProps = (state) => ({
+  sorriesReducer: state.sorriesReducer,
 });
 
 export default connect(mapStateToProps, { getSorries })(Sorries);

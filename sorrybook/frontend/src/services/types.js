@@ -25,3 +25,6 @@ export const SET_MESSAGES = "SET_MESSAGES";
 export const NEW_MESSAGE = "NEW_MESSAGE";
 export const CURRENT_ROOM = "CURRENT_ROOM";
 export const ADD_CHATROOM = "ADD_CHATROOM";
+export const SORT_BY_TIME = "SORT_BY_TIME";
+export const SORT_BY_LIKES = "SORT_BY_LIKES";
+export const SORT_BY_COMMENTS = "SORT_BY_COMMENTS";

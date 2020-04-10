@@ -48,6 +48,7 @@ const Sorry = (props) => {
         likes: "col-4",
         comments: "col-7",
         time: "col-6",
+        content: "col-8",
       };
     }
 
@@ -58,11 +59,11 @@ const Sorry = (props) => {
         likes: "col-2",
         comments: "col-4",
         time: "col-4",
+        content: "col-10",
       };
     }
 
     var username = "";
-    // If users not ready, return loading
 
     const user = props.usersReducer.users.find(
       (user) => user.id === props.content.owner
@@ -133,7 +134,7 @@ const Sorry = (props) => {
           <div className="card-body">
             <div className="container">
               <div className="row justify-content-md-start">
-                <div className="col-10">
+                <div className={classes.content}>
                   <h3>
                     <a href={`profile/${props.content.owner}`}>
                       <u>{username}</u>
