@@ -16,7 +16,7 @@ class ChatListView(viewsets.ModelViewSet):
     ]
 
     def retrieve(self, request):
-        user = User.objects.get(id=request.user.id)
+        user = get_object_or_404(User, id=request.user.id)
         set = Chat.objects.all()
         list = []
         for chat in set:

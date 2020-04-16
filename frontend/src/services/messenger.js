@@ -32,7 +32,7 @@ export const currentRoom = (data) => (dispatch) => {
 
 export const getChatRooms = () => (dispatch, getState) => {
   axios
-    .get("api/chat", tokenConfig(getState))
+    .get("api/chat/", tokenConfig(getState))
     .then((res) =>
       dispatch({
         type: SET_CHATROOMS,

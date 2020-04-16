@@ -3,21 +3,21 @@ import { connect } from "react-redux";
 
 import { addSorry } from "../../services/sorryService";
 
-const NewSorry = props => {
+const NewSorry = (props) => {
   const [apologistContent, setApologistContent] = useState({
     apologist: "",
-    content: ""
+    content: "",
   });
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     props.addSorry(apologistContent);
     setApologistContent({ apologist: "", content: "" });
   };
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setApologistContent({
       ...apologistContent,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -54,7 +54,8 @@ const NewSorry = props => {
                 id="inputApologist"
                 placeholder="Enter Apologist"
                 name="apologist"
-                onChange={e => handleChange(e)}
+                value={apologistContent.apologist}
+                onChange={(e) => handleChange(e)}
               ></input>
               <small id="apologistHelp" className="form-text text-muted">
                 Optional
@@ -68,7 +69,8 @@ const NewSorry = props => {
                 id="inputContent"
                 placeholder="continue sentence"
                 name="content"
-                onChange={e => handleChange(e)}
+                value={apologistContent.content}
+                onChange={(e) => handleChange(e)}
               ></input>
             </div>
           </div>
@@ -81,7 +83,7 @@ const NewSorry = props => {
               Close
             </button>
             <button
-              onClick={e => handleSubmit(e)}
+              onClick={(e) => handleSubmit(e)}
               type="button"
               data-dismiss="modal"
               className="btn btn-primary"
@@ -95,9 +97,9 @@ const NewSorry = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    sorrieReducer: state.sorrieReducer.sorries
+    sorrieReducer: state.sorrieReducer.sorries,
   };
 };
 export default connect(null, { addSorry })(NewSorry);

@@ -1,6 +1,3 @@
-import { setMessages } from "../services/messenger";
-import { connect } from "react-redux";
-
 class WebSocketService {
   static instance = null;
   callbacks = {};
@@ -26,7 +23,7 @@ class WebSocketService {
       this.socketNewMessage(e.data);
     };
     this.socketRef.onerror = (e) => {
-      console.log(e.message);
+      console.log(e);
     };
   }
 

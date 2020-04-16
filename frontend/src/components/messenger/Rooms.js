@@ -59,10 +59,13 @@ const Rooms = (props) => {
                   data-toggle="modal"
                   data-target="#chatTableModal"
                 >
-                  <User
-                    authUser={props.authReducer.user.username}
-                    content={room}
-                  />
+                  {" "}
+                  {props.authReducer.user.username !== null && (
+                    <User
+                      authUser={props.authReducer.user.username}
+                      content={room}
+                    />
+                  )}
                 </div>
               );
             }
